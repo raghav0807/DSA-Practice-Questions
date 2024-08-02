@@ -6,3 +6,16 @@ Welcome to the **DSA Problem Solutions** repository! This repository contains so
 
 The repository is organized into different folders for easy access. Each folder contains a set of problems with their respective solutions.
 Let's Go !!!!
+
+## LEETCODE 75
+
+### Problem 1: Two Sum
+
+Given an array of integers `nums` and an integer `target`, return indices of the two numbers
+such that they add up to `target`. You may assume that each input would have exactly one solution
+
+## LEETCODE 150
+
+### Problem 1: Reverse Linked List
+
+Reverse a singly linked list.
