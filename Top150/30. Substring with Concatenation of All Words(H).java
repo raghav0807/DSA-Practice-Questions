@@ -3,7 +3,7 @@ import java.util.*;
 class Solution {
     public List<Integer> findSubstring(String s, String[] words) {
         List<Integer> result = new ArrayList<>();
-        if (s == null || s.length() == 0 || words == null || words.length == 0) {
+        if (s == null || s.isEmpty() || words == null || words.length == 0) {
             return result;
         }
 
@@ -19,26 +19,36 @@ class Solution {
             wordCount.put(word, wordCount.getOrDefault(word, 0) + 1);
         }
 
-        for (int i = 0; i <= s.length() - totalLength; i++) {
+        for (int i = 0; i < wordLength; i++) {
             Map<String, Integer> seenWords = new HashMap<>();
-            int j;
-            for (j = 0; j < words.length; j++) {
-                int startIndex = i + j * wordLength;
-                String currentWord = s.substring(startIndex, startIndex + wordLength);
-                
-                if (!wordCount.containsKey(currentWord)) {
-                    break;
+            int left = i, count = 0;
+
+            for (int j = i; j <= s.length() - wordLength; j += wordLength) {
+                String currentWord = s.substring(j, j + wordLength);
+
+                if (wordCount.containsKey(currentWord)) {
+                    seenWords.put(currentWord, seenWords.getOrDefault(currentWord, 0) + 1);
+                    count++;
+
+                    while (seenWords.get(currentWord) > wordCount.get(currentWord)) {
+                        String leftWord = s.substring(left, left + wordLength);
+                        seenWords.put(leftWord, seenWords.get(leftWord) - 1);
+                        left += wordLength;
+                        count--;
+                    }
+
+                    if (count == words.length) {
+                        result.add(left);
+                        String leftWord = s.substring(left, left + wordLength);
+                        seenWords.put(leftWord, seenWords.get(leftWord) - 1);
+                        left += wordLength;
+                        count--;
+                    }
+                } else {
+                    seenWords.clear();
+                    count = 0;
+                    left = j + wordLength;
                 }
-
-                seenWords.put(currentWord, seenWords.getOrDefault(currentWord, 0) + 1);
-
-                if (seenWords.get(currentWord) > wordCount.getOrDefault(currentWord, 0)) {
-                    break;
-                }
-            }
-
-            if (j == words.length) {
-                result.add(i);
             }
         }
 
